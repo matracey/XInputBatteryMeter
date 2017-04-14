@@ -37,7 +37,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatteryMeterApplicationContext.cs" />
@@ -83,9 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\batteryIcon-100.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="LICENSE" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
