@@ -5,13 +5,9 @@ namespace XInputBatteryMeter
 {
     public class Program
     {
-        public Program()
-        {
-        }
-
         public static void Main()
         {
-            Console.WriteLine("Initializing.");
+            Console.WriteLine(@"Initializing.");
 
             var poller = new BatteryStatusPoller();
 

@@ -10,16 +10,16 @@ namespace XInputBatteryMeter
         // Public properties
         public List<Controller> Controllers { get; set; }
         public Dictionary<UserIndex, BatteryInformation> ControllerBatteryInformation { get; set; }
-        public EventHandler<UserIndex> Controller_Connected;
-        public EventHandler<UserIndex> Controller_Disconnected;
-        public EventHandler<UserIndex> Controller_BatteryLow;
-        public EventHandler<UserIndex> Controller_BatteryInformationUpdated;
+        public EventHandler<UserIndex> ControllerConnected;
+        public EventHandler<UserIndex> ControllerDisconnected;
+        public EventHandler<UserIndex> ControllerBatteryLow;
+        public EventHandler<UserIndex> ControllerBatteryInformationUpdated;
 
         // Private fields
-        private Timer _pollTimer;
         private int _pollCount;
-        private Dictionary<UserIndex, bool> _connectedControllers;
-        private Dictionary<UserIndex, bool> _connectedControllers_BatteryLow;
+        private readonly Timer _pollTimer;
+        private readonly Dictionary<UserIndex, bool> _connectedControllers;
+        private readonly Dictionary<UserIndex, bool> _connectedControllersBatteryLow;
 
         public BatteryStatusPoller()
         {
@@ -36,28 +36,28 @@ namespace XInputBatteryMeter
             ControllerBatteryInformation = new Dictionary<UserIndex, BatteryInformation>();
 
             _connectedControllers = new Dictionary<UserIndex, bool>();
-            _connectedControllers_BatteryLow = new Dictionary<UserIndex, bool>();
+            _connectedControllersBatteryLow = new Dictionary<UserIndex, bool>();
 
-            foreach (Controller controller in Controllers)
+            foreach (var controller in Controllers)
             {
                 _connectedControllers[controller.UserIndex] = controller.IsConnected;
-                _connectedControllers_BatteryLow[controller.UserIndex] = false;
+                _connectedControllersBatteryLow[controller.UserIndex] = false;
             }
 
             _pollCount = 0;
 
-            _pollTimer = new Timer()
+            _pollTimer = new Timer
             {
                 Interval = Convert.ToInt32(TimeSpan.FromSeconds(2.5).TotalMilliseconds)
             };
 
-            _pollTimer.Elapsed += new ElapsedEventHandler(PollTimer_Elapsed);
+            _pollTimer.Elapsed += PollTimer_Elapsed;
 
             _pollTimer.Start();
         }
 
         // This will run when the timer expires.
-        public void PollTimer_Elapsed(Object myObject, EventArgs mytEventArgs)
+        public void PollTimer_Elapsed(object myObject, EventArgs mytEventArgs)
         {
             _pollTimer.Stop();
 
@@ -72,36 +72,34 @@ namespace XInputBatteryMeter
                 };
             }
 
-            foreach (Controller controller in Controllers)
+            foreach (var controller in Controllers)
             {
                 if (controller.IsConnected)
                 {
                     // Check if this controller is a newly connected controller.
                     if (_connectedControllers[controller.UserIndex] != true)
                     {
-                        Controller_Connected(this, controller.UserIndex);
+                        ControllerConnected(this, controller.UserIndex);
                         _connectedControllers[controller.UserIndex] = true;
                     }
 
                     // Check if this controller has a low battery, where it wasn't previously low.
                     var battery = controller.GetBatteryInformation(BatteryDeviceType.Gamepad);
-                    if (_connectedControllers_BatteryLow[controller.UserIndex] != true && battery.BatteryLevel == BatteryLevel.Low)
+                    if (_connectedControllersBatteryLow[controller.UserIndex] != true && battery.BatteryLevel == BatteryLevel.Low)
                     {
-                        Controller_BatteryLow(this, controller.UserIndex);
-                        _connectedControllers_BatteryLow[controller.UserIndex] = true;
+                        ControllerBatteryLow(this, controller.UserIndex);
+                        _connectedControllersBatteryLow[controller.UserIndex] = true;
                     }
 
                     // Make the battery information publicly available.
                     ControllerBatteryInformation[controller.UserIndex] = battery;
-                    Controller_BatteryInformationUpdated(this, controller.UserIndex);
+                    ControllerBatteryInformationUpdated(this, controller.UserIndex);
                 }else
                 {
                     // Check if this controller was a previously connected controller.
-                    if (_connectedControllers[controller.UserIndex] == true)
-                    {
-                        Controller_Disconnected(this, controller.UserIndex);
-                        _connectedControllers[controller.UserIndex] = false;
-                    }
+                    if (!_connectedControllers[controller.UserIndex]) continue;
+                    ControllerDisconnected(this, controller.UserIndex);
+                    _connectedControllers[controller.UserIndex] = false;
                 }
             }
 

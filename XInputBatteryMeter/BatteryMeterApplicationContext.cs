@@ -7,8 +7,8 @@ namespace XInputBatteryMeter
 {
     public class BatteryMeterApplicationContext : ApplicationContext
     {
-        private NotifyIcon _notifyIcon;
-        private BatteryStatusPoller _poller;
+        private readonly NotifyIcon _notifyIcon;
+        private readonly BatteryStatusPoller _poller;
         private Controller _activeController;
 
         /// <summary>
@@ -17,13 +17,15 @@ namespace XInputBatteryMeter
         /// <param name="poller">The BatteryStatusPoller that will query battery status.</param>
         public BatteryMeterApplicationContext(BatteryStatusPoller poller)
         {
+            // Set up the poller values.
             _poller = poller;
-            poller.Controller_Connected += Controller_Connected;
-            poller.Controller_Disconnected += Controller_Disconnected;
-            poller.Controller_BatteryLow += Controller_BatteryLow;
-            poller.Controller_BatteryInformationUpdated += Controller_BatteryInformationUpdated;
+            poller.ControllerConnected += Controller_Connected;
+            poller.ControllerDisconnected += Controller_Disconnected;
+            poller.ControllerBatteryLow += Controller_BatteryLow;
+            poller.ControllerBatteryInformationUpdated += Controller_BatteryInformationUpdated;
 
-            _notifyIcon = new NotifyIcon()
+            // Set up the Notification icon.
+            _notifyIcon = new NotifyIcon
             {
                 Icon = Properties.Resources.AppIcon,
                 ContextMenu = new ContextMenu(),
@@ -34,9 +36,10 @@ namespace XInputBatteryMeter
 
             foreach (var controller in _poller.Controllers)
             {
-                var mainMenuItem = new MenuItem() { Name = $"Controller{controller.UserIndex}_Main" };
-                var batteryTypeMenuItem = new MenuItem() { Enabled = false, Name = $"Controller{controller.UserIndex}_BatteryType" };
-                var batteryLevelMenuItem = new MenuItem() { Enabled = false, Name = $"Controller{controller.UserIndex}_BatteryLevel" };
+                var mainMenuItem = new MenuItem { Name = $"Controller{controller.UserIndex}_Main" };
+                var batteryTypeMenuItem = new MenuItem { Enabled = false, Name = $"Controller{controller.UserIndex}_BatteryType" };
+                var batteryLevelMenuItem = new MenuItem { Enabled = false, Name = $"Controller{controller.UserIndex}_BatteryLevel" };
+                mainMenuItem.Click += MainMenuItem_Click;
 
                 UpdateControllerStatus(controller, ref mainMenuItem, ref batteryTypeMenuItem, ref batteryLevelMenuItem);
                 
@@ -46,11 +49,12 @@ namespace XInputBatteryMeter
                 _notifyIcon.ContextMenu.MenuItems.Add("-");
             }
 
-            MenuItem aboutItem = new MenuItem("About", new EventHandler(About_Clicked)) { Name = "About" };
-            MenuItem exitItem = new MenuItem("Exit", new EventHandler(Exit_Clicked)) { Name = "Exit" };
+            var aboutItem = new MenuItem("About", About_Clicked) { Name = "About" };
+            var exitItem = new MenuItem("Exit", Exit_Clicked) { Name = "Exit" };
 
             _notifyIcon.ContextMenu.MenuItems.Add(aboutItem);
             _notifyIcon.ContextMenu.MenuItems.Add(exitItem);
+
 
             UpdateActiveController();
         }
@@ -87,16 +91,16 @@ namespace XInputBatteryMeter
             if (controller.IsConnected && _poller.ControllerBatteryInformation.ContainsKey(controller.UserIndex))
             {
                 var batteryInfo = _poller.ControllerBatteryInformation[controller.UserIndex];
-                mainMenuItem.Text = $"Controller {controller.UserIndex}";
-                batteryTypeMenuItem.Text = $"Battery Type: {batteryInfo.BatteryType.ToString()}";
-                batteryLevelMenuItem.Text = $"Battery Level: {batteryInfo.BatteryLevel.ToString()}";
+                mainMenuItem.Text = $@"Controller {controller.UserIndex}";
+                batteryTypeMenuItem.Text = $@"Battery Type: {batteryInfo.BatteryType}";
+                batteryLevelMenuItem.Text = $@"Battery Level: {batteryInfo.BatteryLevel}";
                 mainMenuItem.Enabled = true;
                 batteryTypeMenuItem.Visible = true;
                 batteryLevelMenuItem.Visible = true;
             }
             else
             {
-                mainMenuItem.Text = $"Controller {controller.UserIndex} is not connected.";
+                mainMenuItem.Text = $@"Controller {controller.UserIndex} is not connected.";
                 mainMenuItem.Enabled = false;
                 batteryTypeMenuItem.Visible = false;
                 batteryLevelMenuItem.Visible = false;
@@ -129,7 +133,6 @@ namespace XInputBatteryMeter
         {
             UpdateActiveController();
             _notifyIcon.ShowBalloonTip(0, "Controller Disconnected", $"Controller {e} has been disconnected.", ToolTipIcon.None);
-            ResetAppTrayIcon();
         }
 
         private void Controller_BatteryInformationUpdated(object sender, UserIndex e)
@@ -137,16 +140,38 @@ namespace XInputBatteryMeter
             if(_activeController.UserIndex == e) UpdateAppTrayIcon(_poller.ControllerBatteryInformation[e]);
         }
 
-        private void UpdateActiveController()
+        private void MainMenuItem_Click(object sender, EventArgs e)
         {
-            if (_poller.Controllers.FirstOrDefault(c => c.UserIndex == UserIndex.One).IsConnected && _activeController == null)
+            var menuItem = (MenuItem)sender;
+            UpdateActiveController(_poller.Controllers.FirstOrDefault(c => menuItem.Name == $"Controller{c.UserIndex}_Main"));
+        }
+
+        private void UpdateActiveController(Controller selectedController = null)
+        {
+            // Will be null if no controllers connected.
+            if (selectedController == null) selectedController = _poller.Controllers.FirstOrDefault(c => c.IsConnected);
+
+            if (selectedController != null)
             {
-                _activeController = _poller.Controllers.FirstOrDefault(c => c.UserIndex == UserIndex.One);
-                _notifyIcon.ContextMenu.MenuItems.Cast<MenuItem>().FirstOrDefault(x => x.Name.Equals($"Controller{_activeController.UserIndex}_Main")).Checked = true;
-            }else if (_poller.Controllers.Count(c => c.IsConnected == true) == 0 && _activeController != null)
+                if (_activeController == null || _activeController.UserIndex != selectedController.UserIndex)
+                {
+                    foreach (MenuItem item in _notifyIcon.ContextMenu.MenuItems) item.Checked = false;
+                    _activeController = selectedController;
+
+                    var menuItem = _notifyIcon.ContextMenu.MenuItems.Cast<MenuItem>().FirstOrDefault(x => x.Name.Equals($"Controller{selectedController.UserIndex}_Main"));
+                    if (menuItem != null) menuItem.Checked = true;
+
+                    if (_poller.ControllerBatteryInformation.ContainsKey(selectedController.UserIndex))
+                    {
+                        UpdateAppTrayIcon(_poller.ControllerBatteryInformation[selectedController.UserIndex]);
+                    }
+                }
+            }
+            else
             {
-                _notifyIcon.ContextMenu.MenuItems.Cast<MenuItem>().FirstOrDefault(x => x.Name.Equals($"Controller{_activeController.UserIndex}_Main")).Checked = false;
+                foreach (MenuItem item in _notifyIcon.ContextMenu.MenuItems) item.Checked = false;
                 _activeController = null;
+                ResetAppTrayIcon();
             }
         }
 
