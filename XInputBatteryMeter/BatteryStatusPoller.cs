@@ -1,7 +1,6 @@
 ﻿using SharpDX.XInput;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Timers;
 
 namespace XInputBatteryMeter
@@ -12,7 +11,9 @@ namespace XInputBatteryMeter
         public List<Controller> Controllers { get; set; }
         public Dictionary<UserIndex, BatteryInformation> ControllerBatteryInformation { get; set; }
         public EventHandler<UserIndex> Controller_Connected;
+        public EventHandler<UserIndex> Controller_Disconnected;
         public EventHandler<UserIndex> Controller_BatteryLow;
+        public EventHandler<UserIndex> Controller_BatteryInformationUpdated;
 
         // Private fields
         private Timer _pollTimer;
@@ -60,6 +61,17 @@ namespace XInputBatteryMeter
         {
             _pollTimer.Stop();
 
+            if(_pollCount == 0)
+            {
+                Controllers = new List<Controller>
+                {
+                    new Controller(UserIndex.One),
+                    new Controller(UserIndex.Two),
+                    new Controller(UserIndex.Three),
+                    new Controller(UserIndex.Four)
+                };
+            }
+
             foreach (Controller controller in Controllers)
             {
                 if (controller.IsConnected)
@@ -81,8 +93,19 @@ namespace XInputBatteryMeter
 
                     // Make the battery information publicly available.
                     ControllerBatteryInformation[controller.UserIndex] = battery;
+                    Controller_BatteryInformationUpdated(this, controller.UserIndex);
+                }else
+                {
+                    // Check if this controller was a previously connected controller.
+                    if (_connectedControllers[controller.UserIndex] == true)
+                    {
+                        Controller_Disconnected(this, controller.UserIndex);
+                        _connectedControllers[controller.UserIndex] = false;
+                    }
                 }
             }
+
+            if (_pollCount % 5 == 0) GC.Collect();
 
             _pollCount += 1;
             _pollTimer.Enabled = true;

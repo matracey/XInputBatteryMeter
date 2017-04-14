@@ -1,11 +1,7 @@
 ﻿using SharpDX.XInput;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
 
 namespace XInputBatteryMeter
 {
@@ -13,12 +9,19 @@ namespace XInputBatteryMeter
     {
         private NotifyIcon _notifyIcon;
         private BatteryStatusPoller _poller;
+        private Controller _activeController;
 
+        /// <summary>
+        /// Creates a new BatteryMeterApplicationContext instance using the specified BatteryStatusPoller.
+        /// </summary>
+        /// <param name="poller">The BatteryStatusPoller that will query battery status.</param>
         public BatteryMeterApplicationContext(BatteryStatusPoller poller)
         {
             _poller = poller;
             poller.Controller_Connected += Controller_Connected;
+            poller.Controller_Disconnected += Controller_Disconnected;
             poller.Controller_BatteryLow += Controller_BatteryLow;
+            poller.Controller_BatteryInformationUpdated += Controller_BatteryInformationUpdated;
 
             _notifyIcon = new NotifyIcon()
             {
@@ -48,9 +51,15 @@ namespace XInputBatteryMeter
 
             _notifyIcon.ContextMenu.MenuItems.Add(aboutItem);
             _notifyIcon.ContextMenu.MenuItems.Add(exitItem);
+
+            UpdateActiveController();
         }
 
-
+        /// <summary>
+        /// Handles the Context Menu popup event, refreshing the battery information in each of the menu items.
+        /// </summary>
+        /// <param name="sender">The object that triggered this event.</param>
+        /// <param name="e">The EventArgs.</param>
         private void ContextMenu_Popup(object sender, EventArgs e)
         {
             // Refresh the controller information.
@@ -112,7 +121,57 @@ namespace XInputBatteryMeter
 
         private void Controller_Connected(object sender, UserIndex e)
         {
+            UpdateActiveController();
             _notifyIcon.ShowBalloonTip(0, "Controller Connected", $"Controller {e} has been connected.", ToolTipIcon.None);
+        }
+
+        private void Controller_Disconnected(object sender, UserIndex e)
+        {
+            UpdateActiveController();
+            _notifyIcon.ShowBalloonTip(0, "Controller Disconnected", $"Controller {e} has been disconnected.", ToolTipIcon.None);
+            ResetAppTrayIcon();
+        }
+
+        private void Controller_BatteryInformationUpdated(object sender, UserIndex e)
+        {
+            if(_activeController.UserIndex == e) UpdateAppTrayIcon(_poller.ControllerBatteryInformation[e]);
+        }
+
+        private void UpdateActiveController()
+        {
+            if (_poller.Controllers.FirstOrDefault(c => c.UserIndex == UserIndex.One).IsConnected && _activeController == null)
+            {
+                _activeController = _poller.Controllers.FirstOrDefault(c => c.UserIndex == UserIndex.One);
+                _notifyIcon.ContextMenu.MenuItems.Cast<MenuItem>().FirstOrDefault(x => x.Name.Equals($"Controller{_activeController.UserIndex}_Main")).Checked = true;
+            }else if (_poller.Controllers.Count(c => c.IsConnected == true) == 0 && _activeController != null)
+            {
+                _notifyIcon.ContextMenu.MenuItems.Cast<MenuItem>().FirstOrDefault(x => x.Name.Equals($"Controller{_activeController.UserIndex}_Main")).Checked = false;
+                _activeController = null;
+            }
+        }
+
+        private void ResetAppTrayIcon()
+        {
+            _notifyIcon.Icon = Properties.Resources.AppIcon;
+        }
+
+        private void UpdateAppTrayIcon(BatteryInformation batteryInformation)
+        {
+            switch (batteryInformation.BatteryLevel)
+            {
+                case BatteryLevel.Low:
+                    _notifyIcon.Icon = Properties.Resources.batteryIcon_33;
+                    break;
+                case BatteryLevel.Medium:
+                    _notifyIcon.Icon = Properties.Resources.batteryIcon_66;
+                    break;
+                case BatteryLevel.Full:
+                    _notifyIcon.Icon = Properties.Resources.batteryIcon_100;
+                    break;
+                default:
+                    _notifyIcon.Icon = Properties.Resources.AppIcon;
+                    break;
+            }
         }
     }
 }
