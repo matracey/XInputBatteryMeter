@@ -109,7 +109,8 @@ namespace XInputBatteryMeter
 
         private void About_Clicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var about = new AboutForm();
+            about.Show();
         }
 
         private void Exit_Clicked(object sender, EventArgs e)
