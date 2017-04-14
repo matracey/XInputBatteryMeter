@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using SharpDX.XInput;
+using System.Windows.Forms;
 
 namespace XInputBatteryMeter
 {
@@ -18,12 +13,11 @@ namespace XInputBatteryMeter
         {
             Console.WriteLine("Initializing.");
 
-            var poller = new XInputWrapperBatteryStatusPoller();
+            var poller = new BatteryStatusPoller();
 
-            while (true)
-            {
-
-            }
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new BatteryMeterApplicationContext(poller.Controllers));
 
         }
     }
