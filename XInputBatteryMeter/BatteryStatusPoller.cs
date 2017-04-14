@@ -10,13 +10,19 @@ namespace XInputBatteryMeter
     {
         // Public properties
         public List<Controller> Controllers { get; set; }
+        public Dictionary<UserIndex, BatteryInformation> ControllerBatteryInformation { get; set; }
+        public EventHandler<UserIndex> Controller_Connected;
+        public EventHandler<UserIndex> Controller_BatteryLow;
 
         // Private fields
         private Timer _pollTimer;
         private int _pollCount;
+        private Dictionary<UserIndex, bool> _connectedControllers;
+        private Dictionary<UserIndex, bool> _connectedControllers_BatteryLow;
 
         public BatteryStatusPoller()
         {
+            // Initialize the List of Controllers.
             Controllers = new List<Controller>
             {
                 new Controller(UserIndex.One),
@@ -25,14 +31,23 @@ namespace XInputBatteryMeter
                 new Controller(UserIndex.Four)
             };
 
+            // Initialize the Battery Information Dictionary.
+            ControllerBatteryInformation = new Dictionary<UserIndex, BatteryInformation>();
+
+            _connectedControllers = new Dictionary<UserIndex, bool>();
+            _connectedControllers_BatteryLow = new Dictionary<UserIndex, bool>();
+
             foreach (Controller controller in Controllers)
-                Trace.WriteLine($"Controller {controller.UserIndex.ToString()}" + (controller.IsConnected ? " Is Connected" : " Is Not Connected"));
+            {
+                _connectedControllers[controller.UserIndex] = controller.IsConnected;
+                _connectedControllers_BatteryLow[controller.UserIndex] = false;
+            }
 
             _pollCount = 0;
 
             _pollTimer = new Timer()
             {
-                Interval = Convert.ToInt32(TimeSpan.FromSeconds(1).TotalMilliseconds)
+                Interval = Convert.ToInt32(TimeSpan.FromSeconds(2.5).TotalMilliseconds)
             };
 
             _pollTimer.Elapsed += new ElapsedEventHandler(PollTimer_Elapsed);
@@ -49,8 +64,23 @@ namespace XInputBatteryMeter
             {
                 if (controller.IsConnected)
                 {
+                    // Check if this controller is a newly connected controller.
+                    if (_connectedControllers[controller.UserIndex] != true)
+                    {
+                        Controller_Connected(this, controller.UserIndex);
+                        _connectedControllers[controller.UserIndex] = true;
+                    }
+
+                    // Check if this controller has a low battery, where it wasn't previously low.
                     var battery = controller.GetBatteryInformation(BatteryDeviceType.Gamepad);
-                    Trace.WriteLine($"Controller {controller.UserIndex.ToString()}: {battery.BatteryType.ToString()} {battery.BatteryLevel.ToString()}");
+                    if (_connectedControllers_BatteryLow[controller.UserIndex] != true && battery.BatteryLevel == BatteryLevel.Low)
+                    {
+                        Controller_BatteryLow(this, controller.UserIndex);
+                        _connectedControllers_BatteryLow[controller.UserIndex] = true;
+                    }
+
+                    // Make the battery information publicly available.
+                    ControllerBatteryInformation[controller.UserIndex] = battery;
                 }
             }
 

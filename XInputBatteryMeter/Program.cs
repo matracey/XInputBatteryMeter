@@ -17,7 +17,7 @@ namespace XInputBatteryMeter
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new BatteryMeterApplicationContext(poller.Controllers));
+            Application.Run(new BatteryMeterApplicationContext(poller));
 
         }
     }
