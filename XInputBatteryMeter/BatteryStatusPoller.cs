@@ -10,10 +10,10 @@ namespace XInputBatteryMeter
         // Public properties
         public List<Controller> Controllers { get; set; }
         public Dictionary<UserIndex, BatteryInformation> ControllerBatteryInformation { get; set; }
-        public EventHandler<UserIndex> ControllerConnected;
-        public EventHandler<UserIndex> ControllerDisconnected;
-        public EventHandler<UserIndex> ControllerBatteryLow;
-        public EventHandler<UserIndex> ControllerBatteryInformationUpdated;
+        public EventHandler<UserIndexEventArgs> ControllerConnected;
+        public EventHandler<UserIndexEventArgs> ControllerDisconnected;
+        public EventHandler<UserIndexEventArgs> ControllerBatteryLow;
+        public EventHandler<UserIndexEventArgs> ControllerBatteryInformationUpdated;
 
         // Private fields
         private int _pollCount;
@@ -79,7 +79,7 @@ namespace XInputBatteryMeter
                     // Check if this controller is a newly connected controller.
                     if (_connectedControllers[controller.UserIndex] != true)
                     {
-                        ControllerConnected(this, controller.UserIndex);
+                        ControllerConnected(this, new UserIndexEventArgs(controller.UserIndex));
                         _connectedControllers[controller.UserIndex] = true;
                     }
 
@@ -87,18 +87,18 @@ namespace XInputBatteryMeter
                     var battery = controller.GetBatteryInformation(BatteryDeviceType.Gamepad);
                     if (_connectedControllersBatteryLow[controller.UserIndex] != true && battery.BatteryLevel == BatteryLevel.Low)
                     {
-                        ControllerBatteryLow(this, controller.UserIndex);
+                        ControllerBatteryLow(this, new UserIndexEventArgs(controller.UserIndex));
                         _connectedControllersBatteryLow[controller.UserIndex] = true;
                     }
 
                     // Make the battery information publicly available.
                     ControllerBatteryInformation[controller.UserIndex] = battery;
-                    ControllerBatteryInformationUpdated(this, controller.UserIndex);
+                    ControllerBatteryInformationUpdated(this, new UserIndexEventArgs(controller.UserIndex));
                 }else
                 {
                     // Check if this controller was a previously connected controller.
                     if (!_connectedControllers[controller.UserIndex]) continue;
-                    ControllerDisconnected(this, controller.UserIndex);
+                    ControllerDisconnected(this, new UserIndexEventArgs(controller.UserIndex));
                     _connectedControllers[controller.UserIndex] = false;
                 }
             }
@@ -107,6 +107,16 @@ namespace XInputBatteryMeter
 
             _pollCount += 1;
             _pollTimer.Enabled = true;
+        }
+    }
+
+    public class UserIndexEventArgs : EventArgs
+    {
+        public UserIndex UserIndex { get; set; }
+
+        public UserIndexEventArgs(UserIndex userIndex)
+        {
+            UserIndex = userIndex;
         }
     }
 }
