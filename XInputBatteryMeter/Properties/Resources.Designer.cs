@@ -70,6 +70,78 @@ namespace XInputBatteryMeter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About XInput Battery Meter.
+        /// </summary>
+        internal static string AboutPageTitle {
+            get {
+                return ResourceManager.GetString("AboutPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Video Game Controller by Uriel Sosa from the Noun Project.
+        /// </summary>
+        internal static string AcknowledgementsControllerIconAck {
+            get {
+                return ResourceManager.GetString("AcknowledgementsControllerIconAck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CC BY 3.0 US.
+        /// </summary>
+        internal static string AcknowledgementsControllerIconLicense {
+            get {
+                return ResourceManager.GetString("AcknowledgementsControllerIconLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Video Game Controller icon:.
+        /// </summary>
+        internal static string AcknowledgementsControllerIconTitle {
+            get {
+                return ResourceManager.GetString("AcknowledgementsControllerIconTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIT License.
+        /// </summary>
+        internal static string AcknowledgementsSharpDxLicense {
+            get {
+                return ResourceManager.GetString("AcknowledgementsSharpDxLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SharpDX:.
+        /// </summary>
+        internal static string AcknowledgementsSharpDxTitle {
+            get {
+                return ResourceManager.GetString("AcknowledgementsSharpDxTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License.
+        /// </summary>
+        internal static string AcknowledgementsTitle {
+            get {
+                return ResourceManager.GetString("AcknowledgementsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Displays a battery meter for connected XInput controller devices in the Windows taskbar..
+        /// </summary>
+        internal static string AppDescription {
+            get {
+                return ResourceManager.GetString("AppDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon AppIcon {
@@ -183,6 +255,15 @@ namespace XInputBatteryMeter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string CloseButtonText {
+            get {
+                return ResourceManager.GetString("CloseButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Controller USER_INDEX has been connected..
         /// </summary>
         internal static string ControllerConnectedDescription {
@@ -238,11 +319,42 @@ namespace XInputBatteryMeter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://thenounproject.com/term/video-game-controller/8357/.
+        /// </summary>
+        internal static string ControllerIconUrl {
+            get {
+                return ResourceManager.GetString("ControllerIconUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://creativecommons.org/licenses/by/3.0/us/.
+        /// </summary>
+        internal static string CreativeCommonsUrl {
+            get {
+                return ResourceManager.GetString("CreativeCommonsUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit.
         /// </summary>
         internal static string ExitMenuItem {
             get {
                 return ResourceManager.GetString("ExitMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copyright (c) 2017 Martin Tracey
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        ///
+        ///The above copyright notice and this perm [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string LicenseText {
+            get {
+                return ResourceManager.GetString("LicenseText", resourceCulture);
             }
         }
         
@@ -267,11 +379,29 @@ namespace XInputBatteryMeter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to http://sharpdx.org/License.txt.
+        /// </summary>
+        internal static string SharpdxLicenseUrl {
+            get {
+                return ResourceManager.GetString("SharpdxLicenseUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to USER_INDEX.
         /// </summary>
         internal static string UserIndexPlaceholder {
             get {
                 return ResourceManager.GetString("UserIndexPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version .
+        /// </summary>
+        internal static string VersionString {
+            get {
+                return ResourceManager.GetString("VersionString", resourceCulture);
             }
         }
     }

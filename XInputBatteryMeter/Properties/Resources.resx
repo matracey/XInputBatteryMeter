@@ -189,4 +189,52 @@ Level: BATTERY_LEVEL</value>
   <data name="UserIndexPlaceholder" xml:space="preserve">
     <value>USER_INDEX</value>
   </data>
+  <data name="AboutPageTitle" xml:space="preserve">
+    <value>About XInput Battery Meter</value>
+  </data>
+  <data name="AcknowledgementsControllerIconAck" xml:space="preserve">
+    <value>Video Game Controller by Uriel Sosa from the Noun Project</value>
+  </data>
+  <data name="AcknowledgementsControllerIconLicense" xml:space="preserve">
+    <value>CC BY 3.0 US</value>
+  </data>
+  <data name="AcknowledgementsControllerIconTitle" xml:space="preserve">
+    <value>Video Game Controller icon:</value>
+  </data>
+  <data name="AcknowledgementsSharpDxLicense" xml:space="preserve">
+    <value>MIT License</value>
+  </data>
+  <data name="AcknowledgementsSharpDxTitle" xml:space="preserve">
+    <value>SharpDX:</value>
+  </data>
+  <data name="AcknowledgementsTitle" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Displays a battery meter for connected XInput controller devices in the Windows taskbar.</value>
+  </data>
+  <data name="CloseButtonText" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ControllerIconUrl" xml:space="preserve">
+    <value>https://thenounproject.com/term/video-game-controller/8357/</value>
+  </data>
+  <data name="CreativeCommonsUrl" xml:space="preserve">
+    <value>https://creativecommons.org/licenses/by/3.0/us/</value>
+  </data>
+  <data name="LicenseText" xml:space="preserve">
+    <value>Copyright (c) 2017 Martin Tracey
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</value>
+  </data>
+  <data name="SharpdxLicenseUrl" xml:space="preserve">
+    <value>http://sharpdx.org/License.txt</value>
+  </data>
+  <data name="VersionString" xml:space="preserve">
+    <value>Version </value>
+  </data>
 </root>

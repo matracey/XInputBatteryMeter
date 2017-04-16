@@ -28,31 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
             this.headerPanel = new System.Windows.Forms.Panel();
             this.appLogo = new System.Windows.Forms.PictureBox();
             this.titlePanel = new System.Windows.Forms.Panel();
             this.versionLabel = new System.Windows.Forms.Label();
             this.subtitleLabel = new System.Windows.Forms.Label();
             this.titleLabel = new System.Windows.Forms.Label();
-            this.copyrightLine1Label = new System.Windows.Forms.Label();
-            this.copyrightLine2Label = new System.Windows.Forms.Label();
+            this.licenseGroupBox = new System.Windows.Forms.GroupBox();
             this.copyrightPanel = new System.Windows.Forms.Panel();
-            this.copyrightLine4Label = new System.Windows.Forms.Label();
-            this.copyrightLine3Label = new System.Windows.Forms.Label();
+            this.licenseLabel = new System.Windows.Forms.Label();
             this.acknowledgementsPanel = new System.Windows.Forms.Panel();
             this.sharpDxLicenseLabel = new System.Windows.Forms.Label();
             this.sharpDxLinkLabel = new System.Windows.Forms.LinkLabel();
             this.controllerIconAcknowledgement = new System.Windows.Forms.Label();
             this.controllerIconLicenseLinkLabel = new System.Windows.Forms.LinkLabel();
-            this.controllerIconLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.controllerIconTitleLinkLabel = new System.Windows.Forms.LinkLabel();
             this.acknowledgementsTitle = new System.Windows.Forms.Label();
             this.footerPanel = new System.Windows.Forms.Panel();
+            this.closeButton = new System.Windows.Forms.Button();
             this.headerPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.appLogo)).BeginInit();
             this.titlePanel.SuspendLayout();
+            this.licenseGroupBox.SuspendLayout();
             this.copyrightPanel.SuspendLayout();
             this.acknowledgementsPanel.SuspendLayout();
+            this.footerPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // headerPanel
@@ -69,10 +69,10 @@
             // appLogo
             // 
             this.appLogo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.appLogo.Location = new System.Drawing.Point(588, 12);
+            this.appLogo.Location = new System.Drawing.Point(548, 12);
             this.appLogo.Name = "appLogo";
-            this.appLogo.Size = new System.Drawing.Size(164, 175);
-            this.appLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.appLogo.Size = new System.Drawing.Size(204, 175);
+            this.appLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.appLogo.TabIndex = 3;
             this.appLogo.TabStop = false;
             // 
@@ -92,9 +92,9 @@
             this.versionLabel.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.versionLabel.Location = new System.Drawing.Point(0, 107);
             this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.versionLabel.Size = new System.Drawing.Size(530, 68);
             this.versionLabel.TabIndex = 2;
-            this.versionLabel.Text = "Version 1.0";
             this.versionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // subtitleLabel
@@ -103,71 +103,51 @@
             this.subtitleLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.subtitleLabel.Location = new System.Drawing.Point(0, 64);
             this.subtitleLabel.Name = "subtitleLabel";
+            this.subtitleLabel.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.subtitleLabel.Size = new System.Drawing.Size(530, 43);
             this.subtitleLabel.TabIndex = 1;
-            this.subtitleLabel.Text = "Displays a battery meter for connected XInput controller devices in the Windows t" +
-    "askbar.";
             // 
             // titleLabel
             // 
             this.titleLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.titleLabel.Font = new System.Drawing.Font("Segoe UI Light", 32F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabel.Location = new System.Drawing.Point(0, 0);
+            this.titleLabel.Margin = new System.Windows.Forms.Padding(0);
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(530, 64);
             this.titleLabel.TabIndex = 0;
-            this.titleLabel.Text = "XInput Battery Meter";
             // 
-            // copyrightLine1Label
+            // licenseGroupBox
             // 
-            this.copyrightLine1Label.Dock = System.Windows.Forms.DockStyle.Top;
-            this.copyrightLine1Label.Location = new System.Drawing.Point(8, 8);
-            this.copyrightLine1Label.Name = "copyrightLine1Label";
-            this.copyrightLine1Label.Size = new System.Drawing.Size(748, 23);
-            this.copyrightLine1Label.TabIndex = 2;
-            this.copyrightLine1Label.Text = "Copyright © 2017 Martin Tracey";
-            // 
-            // copyrightLine2Label
-            // 
-            this.copyrightLine2Label.Dock = System.Windows.Forms.DockStyle.Top;
-            this.copyrightLine2Label.Location = new System.Drawing.Point(8, 31);
-            this.copyrightLine2Label.Name = "copyrightLine2Label";
-            this.copyrightLine2Label.Size = new System.Drawing.Size(748, 63);
-            this.copyrightLine2Label.TabIndex = 1;
-            this.copyrightLine2Label.Text = resources.GetString("copyrightLine2Label.Text");
+            this.licenseGroupBox.AutoSize = true;
+            this.licenseGroupBox.Controls.Add(this.copyrightPanel);
+            this.licenseGroupBox.Controls.Add(this.acknowledgementsPanel);
+            this.licenseGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.licenseGroupBox.Location = new System.Drawing.Point(0, 190);
+            this.licenseGroupBox.Name = "licenseGroupBox";
+            this.licenseGroupBox.Size = new System.Drawing.Size(764, 372);
+            this.licenseGroupBox.TabIndex = 6;
+            this.licenseGroupBox.TabStop = false;
             // 
             // copyrightPanel
             // 
-            this.copyrightPanel.Controls.Add(this.copyrightLine4Label);
-            this.copyrightPanel.Controls.Add(this.copyrightLine3Label);
-            this.copyrightPanel.Controls.Add(this.copyrightLine2Label);
-            this.copyrightPanel.Controls.Add(this.copyrightLine1Label);
+            this.copyrightPanel.Controls.Add(this.licenseLabel);
             this.copyrightPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.copyrightPanel.Location = new System.Drawing.Point(0, 331);
+            this.copyrightPanel.Location = new System.Drawing.Point(3, 157);
             this.copyrightPanel.Margin = new System.Windows.Forms.Padding(15);
             this.copyrightPanel.Name = "copyrightPanel";
-            this.copyrightPanel.Padding = new System.Windows.Forms.Padding(8);
-            this.copyrightPanel.Size = new System.Drawing.Size(764, 193);
-            this.copyrightPanel.TabIndex = 3;
+            this.copyrightPanel.Padding = new System.Windows.Forms.Padding(20, 8, 20, 8);
+            this.copyrightPanel.Size = new System.Drawing.Size(758, 212);
+            this.copyrightPanel.TabIndex = 6;
             // 
-            // copyrightLine4Label
+            // licenseLabel
             // 
-            this.copyrightLine4Label.Dock = System.Windows.Forms.DockStyle.Top;
-            this.copyrightLine4Label.Location = new System.Drawing.Point(8, 131);
-            this.copyrightLine4Label.Name = "copyrightLine4Label";
-            this.copyrightLine4Label.Size = new System.Drawing.Size(748, 62);
-            this.copyrightLine4Label.TabIndex = 4;
-            this.copyrightLine4Label.Text = resources.GetString("copyrightLine4Label.Text");
-            // 
-            // copyrightLine3Label
-            // 
-            this.copyrightLine3Label.Dock = System.Windows.Forms.DockStyle.Top;
-            this.copyrightLine3Label.Location = new System.Drawing.Point(8, 94);
-            this.copyrightLine3Label.Name = "copyrightLine3Label";
-            this.copyrightLine3Label.Size = new System.Drawing.Size(748, 37);
-            this.copyrightLine3Label.TabIndex = 3;
-            this.copyrightLine3Label.Text = "The above copyright notice and this permission notice shall be included in all co" +
-    "pies or substantial portions of the Software.";
+            this.licenseLabel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.licenseLabel.Location = new System.Drawing.Point(20, 8);
+            this.licenseLabel.Name = "licenseLabel";
+            this.licenseLabel.Size = new System.Drawing.Size(718, 196);
+            this.licenseLabel.TabIndex = 2;
+            this.licenseLabel.Text = "LICENSE";
             // 
             // acknowledgementsPanel
             // 
@@ -175,106 +155,112 @@
             this.acknowledgementsPanel.Controls.Add(this.sharpDxLinkLabel);
             this.acknowledgementsPanel.Controls.Add(this.controllerIconAcknowledgement);
             this.acknowledgementsPanel.Controls.Add(this.controllerIconLicenseLinkLabel);
-            this.acknowledgementsPanel.Controls.Add(this.controllerIconLinkLabel);
+            this.acknowledgementsPanel.Controls.Add(this.controllerIconTitleLinkLabel);
             this.acknowledgementsPanel.Controls.Add(this.acknowledgementsTitle);
             this.acknowledgementsPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.acknowledgementsPanel.Location = new System.Drawing.Point(0, 190);
+            this.acknowledgementsPanel.Location = new System.Drawing.Point(3, 16);
             this.acknowledgementsPanel.Name = "acknowledgementsPanel";
-            this.acknowledgementsPanel.Size = new System.Drawing.Size(764, 141);
-            this.acknowledgementsPanel.TabIndex = 4;
+            this.acknowledgementsPanel.Size = new System.Drawing.Size(758, 141);
+            this.acknowledgementsPanel.TabIndex = 5;
             // 
             // sharpDxLicenseLabel
             // 
             this.sharpDxLicenseLabel.AutoSize = true;
-            this.sharpDxLicenseLabel.Location = new System.Drawing.Point(88, 107);
+            this.sharpDxLicenseLabel.Location = new System.Drawing.Point(85, 97);
             this.sharpDxLicenseLabel.Name = "sharpDxLicenseLabel";
             this.sharpDxLicenseLabel.Padding = new System.Windows.Forms.Padding(5);
-            this.sharpDxLicenseLabel.Size = new System.Drawing.Size(76, 23);
+            this.sharpDxLicenseLabel.Size = new System.Drawing.Size(10, 23);
             this.sharpDxLicenseLabel.TabIndex = 5;
-            this.sharpDxLicenseLabel.Text = "MIT License";
             // 
             // sharpDxLinkLabel
             // 
             this.sharpDxLinkLabel.AutoSize = true;
-            this.sharpDxLinkLabel.Location = new System.Drawing.Point(19, 107);
+            this.sharpDxLinkLabel.Location = new System.Drawing.Point(16, 97);
             this.sharpDxLinkLabel.Name = "sharpDxLinkLabel";
             this.sharpDxLinkLabel.Padding = new System.Windows.Forms.Padding(5);
-            this.sharpDxLinkLabel.Size = new System.Drawing.Size(63, 23);
+            this.sharpDxLinkLabel.Size = new System.Drawing.Size(10, 23);
             this.sharpDxLinkLabel.TabIndex = 4;
-            this.sharpDxLinkLabel.TabStop = true;
-            this.sharpDxLinkLabel.Text = "SharpDX:";
             this.sharpDxLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.SharpDxLinkLabel_LinkClicked);
             // 
             // controllerIconAcknowledgement
             // 
             this.controllerIconAcknowledgement.AutoSize = true;
-            this.controllerIconAcknowledgement.Location = new System.Drawing.Point(19, 84);
+            this.controllerIconAcknowledgement.Location = new System.Drawing.Point(16, 74);
             this.controllerIconAcknowledgement.Name = "controllerIconAcknowledgement";
             this.controllerIconAcknowledgement.Padding = new System.Windows.Forms.Padding(5);
-            this.controllerIconAcknowledgement.Size = new System.Drawing.Size(293, 23);
+            this.controllerIconAcknowledgement.Size = new System.Drawing.Size(10, 23);
             this.controllerIconAcknowledgement.TabIndex = 3;
-            this.controllerIconAcknowledgement.Text = "Video Game Controller by Uriel Sosa from the Noun Project";
             // 
             // controllerIconLicenseLinkLabel
             // 
             this.controllerIconLicenseLinkLabel.AutoSize = true;
-            this.controllerIconLicenseLinkLabel.Location = new System.Drawing.Point(173, 61);
+            this.controllerIconLicenseLinkLabel.Location = new System.Drawing.Point(170, 51);
             this.controllerIconLicenseLinkLabel.Name = "controllerIconLicenseLinkLabel";
             this.controllerIconLicenseLinkLabel.Padding = new System.Windows.Forms.Padding(5);
-            this.controllerIconLicenseLinkLabel.Size = new System.Drawing.Size(84, 23);
+            this.controllerIconLicenseLinkLabel.Size = new System.Drawing.Size(10, 23);
             this.controllerIconLicenseLinkLabel.TabIndex = 2;
-            this.controllerIconLicenseLinkLabel.TabStop = true;
-            this.controllerIconLicenseLinkLabel.Text = "CC BY 3.0 US";
             this.controllerIconLicenseLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CreativeCommonsLinkLabel_LinkClicked);
             // 
-            // controllerIconLinkLabel
+            // controllerIconTitleLinkLabel
             // 
-            this.controllerIconLinkLabel.AutoSize = true;
-            this.controllerIconLinkLabel.Location = new System.Drawing.Point(19, 61);
-            this.controllerIconLinkLabel.Name = "controllerIconLinkLabel";
-            this.controllerIconLinkLabel.Padding = new System.Windows.Forms.Padding(5);
-            this.controllerIconLinkLabel.Size = new System.Drawing.Size(148, 23);
-            this.controllerIconLinkLabel.TabIndex = 0;
-            this.controllerIconLinkLabel.TabStop = true;
-            this.controllerIconLinkLabel.Text = "Video Game Controller icon:";
-            this.controllerIconLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ControllerIconLinkLabel_LinkClicked);
+            this.controllerIconTitleLinkLabel.AutoSize = true;
+            this.controllerIconTitleLinkLabel.Location = new System.Drawing.Point(16, 51);
+            this.controllerIconTitleLinkLabel.Name = "controllerIconTitleLinkLabel";
+            this.controllerIconTitleLinkLabel.Padding = new System.Windows.Forms.Padding(5);
+            this.controllerIconTitleLinkLabel.Size = new System.Drawing.Size(10, 23);
+            this.controllerIconTitleLinkLabel.TabIndex = 0;
+            this.controllerIconTitleLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ControllerIconLinkLabel_LinkClicked);
             // 
             // acknowledgementsTitle
             // 
             this.acknowledgementsTitle.AutoSize = true;
             this.acknowledgementsTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.acknowledgementsTitle.Location = new System.Drawing.Point(18, 7);
+            this.acknowledgementsTitle.Location = new System.Drawing.Point(15, 7);
             this.acknowledgementsTitle.Name = "acknowledgementsTitle";
-            this.acknowledgementsTitle.Padding = new System.Windows.Forms.Padding(5, 15, 5, 15);
-            this.acknowledgementsTitle.Size = new System.Drawing.Size(203, 54);
+            this.acknowledgementsTitle.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
+            this.acknowledgementsTitle.Size = new System.Drawing.Size(93, 44);
             this.acknowledgementsTitle.TabIndex = 1;
-            this.acknowledgementsTitle.Text = "Acknowledgements";
+            this.acknowledgementsTitle.Text = "License";
             // 
             // footerPanel
             // 
-            this.footerPanel.BackColor = System.Drawing.Color.White;
+            this.footerPanel.Controls.Add(this.closeButton);
             this.footerPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.footerPanel.Location = new System.Drawing.Point(0, 542);
+            this.footerPanel.Location = new System.Drawing.Point(0, 576);
             this.footerPanel.Name = "footerPanel";
-            this.footerPanel.Size = new System.Drawing.Size(764, 58);
-            this.footerPanel.TabIndex = 5;
+            this.footerPanel.Padding = new System.Windows.Forms.Padding(0, 5, 15, 15);
+            this.footerPanel.Size = new System.Drawing.Size(764, 65);
+            this.footerPanel.TabIndex = 8;
+            // 
+            // closeButton
+            // 
+            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.closeButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.closeButton.Location = new System.Drawing.Point(621, 5);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(128, 45);
+            this.closeButton.TabIndex = 1;
+            this.closeButton.Text = "Close";
+            this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // AboutForm
             // 
-            this.ClientSize = new System.Drawing.Size(764, 600);
+            this.ClientSize = new System.Drawing.Size(764, 641);
             this.Controls.Add(this.footerPanel);
-            this.Controls.Add(this.copyrightPanel);
-            this.Controls.Add(this.acknowledgementsPanel);
+            this.Controls.Add(this.licenseGroupBox);
             this.Controls.Add(this.headerPanel);
             this.Name = "AboutForm";
             this.headerPanel.ResumeLayout(false);
-            this.headerPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.appLogo)).EndInit();
             this.titlePanel.ResumeLayout(false);
+            this.licenseGroupBox.ResumeLayout(false);
             this.copyrightPanel.ResumeLayout(false);
             this.acknowledgementsPanel.ResumeLayout(false);
             this.acknowledgementsPanel.PerformLayout();
+            this.footerPanel.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -286,18 +272,17 @@
         private System.Windows.Forms.Label subtitleLabel;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Label versionLabel;
-        private System.Windows.Forms.Label copyrightLine1Label;
-        private System.Windows.Forms.Label copyrightLine2Label;
-        private System.Windows.Forms.Panel copyrightPanel;
-        private System.Windows.Forms.Label copyrightLine3Label;
-        private System.Windows.Forms.Label copyrightLine4Label;
+        private System.Windows.Forms.GroupBox licenseGroupBox;
         private System.Windows.Forms.Panel acknowledgementsPanel;
-        private System.Windows.Forms.Label controllerIconAcknowledgement;
-        private System.Windows.Forms.LinkLabel controllerIconLicenseLinkLabel;
-        private System.Windows.Forms.LinkLabel controllerIconLinkLabel;
-        private System.Windows.Forms.Label acknowledgementsTitle;
         private System.Windows.Forms.Label sharpDxLicenseLabel;
         private System.Windows.Forms.LinkLabel sharpDxLinkLabel;
+        private System.Windows.Forms.Label controllerIconAcknowledgement;
+        private System.Windows.Forms.LinkLabel controllerIconLicenseLinkLabel;
+        private System.Windows.Forms.LinkLabel controllerIconTitleLinkLabel;
+        private System.Windows.Forms.Panel copyrightPanel;
+        private System.Windows.Forms.Label licenseLabel;
+        private System.Windows.Forms.Label acknowledgementsTitle;
         private System.Windows.Forms.Panel footerPanel;
+        private System.Windows.Forms.Button closeButton;
     }
 }

@@ -122,7 +122,7 @@ namespace XInputBatteryMeter
 
         private void Controller_BatteryLow(object sender, UserIndexEventArgs e)
         {
-            _notifyIcon.ShowBalloonTip(0, Resources.BatteryLowTitle, Resources.BatteryLevelDescriptor.Replace(Resources.UserIndexPlaceholder, e.UserIndex.ToString()), ToolTipIcon.None);
+            _notifyIcon.ShowBalloonTip(0, Resources.BatteryLowTitle, Resources.BatteryLowDescription.Replace(Resources.UserIndexPlaceholder, e.UserIndex.ToString()), ToolTipIcon.None);
         }
 
         private void Controller_Connected(object sender, UserIndexEventArgs e)
