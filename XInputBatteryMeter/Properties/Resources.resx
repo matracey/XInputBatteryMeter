@@ -136,4 +136,57 @@
   <data name="ControllerIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ControllerIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="AboutMenuItem" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>XInput Battery Meter</value>
+  </data>
+  <data name="BatteryLevelDescriptor" xml:space="preserve">
+    <value>Battery Level: </value>
+  </data>
+  <data name="BatteryLevelPlaceholder" xml:space="preserve">
+    <value>BATTERY_LEVEL</value>
+  </data>
+  <data name="BatteryLowDescription" xml:space="preserve">
+    <value>The battery in Controller USER_INDEX is low.</value>
+  </data>
+  <data name="BatteryLowTitle" xml:space="preserve">
+    <value>Battery Low</value>
+  </data>
+  <data name="BatteryTypeDescriptor" xml:space="preserve">
+    <value>Battery Type: </value>
+  </data>
+  <data name="BatteryTypePlaceholder" xml:space="preserve">
+    <value>BATTERY_TYPE</value>
+  </data>
+  <data name="ControllerConnectedDescription" xml:space="preserve">
+    <value>Controller USER_INDEX has been connected.</value>
+  </data>
+  <data name="ControllerConnectedTitle" xml:space="preserve">
+    <value>Controller Connected</value>
+  </data>
+  <data name="ControllerDescriptor" xml:space="preserve">
+    <value>Controller </value>
+  </data>
+  <data name="ControllerDisconnectedDescription" xml:space="preserve">
+    <value>Controller USER_INDEX has been disconnected.</value>
+  </data>
+  <data name="ControllerDisconnectedTitle" xml:space="preserve">
+    <value>Controller Disconnected</value>
+  </data>
+  <data name="ExitMenuItem" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="NotConnected" xml:space="preserve">
+    <value> is not connnected.</value>
+  </data>
+  <data name="NotificationIconText" xml:space="preserve">
+    <value>Controller USER_INDEX
+Type: BATTERY_TYPE
+Level: BATTERY_LEVEL</value>
+  </data>
+  <data name="UserIndexPlaceholder" xml:space="preserve">
+    <value>USER_INDEX</value>
+  </data>
 </root>

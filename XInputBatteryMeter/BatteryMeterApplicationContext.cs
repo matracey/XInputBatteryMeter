@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Windows.Forms;
+using XInputBatteryMeter.Properties;
 
 namespace XInputBatteryMeter
 {
@@ -27,10 +28,10 @@ namespace XInputBatteryMeter
             // Set up the Notification icon.
             _notifyIcon = new NotifyIcon
             {
-                Icon = Properties.Resources.AppIcon,
+                Icon = Resources.AppIcon,
                 ContextMenu = new ContextMenu(),
                 Visible = true,
-                Text = @"XInput Battery Meter"
+                Text = Resources.AppName
             };
 
             _notifyIcon.ContextMenu.Popup += ContextMenu_Popup;
@@ -50,8 +51,8 @@ namespace XInputBatteryMeter
                 _notifyIcon.ContextMenu.MenuItems.Add("-");
             }
 
-            var aboutItem = new MenuItem("About", About_Clicked) { Name = "About" };
-            var exitItem = new MenuItem("Exit", Exit_Clicked) { Name = "Exit" };
+            var aboutItem = new MenuItem(Resources.AboutMenuItem, About_Clicked) { Name = "About" };
+            var exitItem = new MenuItem(Resources.ExitMenuItem, Exit_Clicked) { Name = "Exit" };
 
             _notifyIcon.ContextMenu.MenuItems.Add(aboutItem);
             _notifyIcon.ContextMenu.MenuItems.Add(exitItem);
@@ -91,16 +92,16 @@ namespace XInputBatteryMeter
             if (controller.IsConnected && _poller.ControllerBatteryInformation.ContainsKey(controller.UserIndex))
             {
                 var batteryInfo = _poller.ControllerBatteryInformation[controller.UserIndex];
-                mainMenuItem.Text = $@"Controller {controller.UserIndex}";
-                batteryTypeMenuItem.Text = $@"Battery Type: {batteryInfo.BatteryType}";
-                batteryLevelMenuItem.Text = $@"Battery Level: {batteryInfo.BatteryLevel}";
+                mainMenuItem.Text = Resources.ControllerDescriptor + controller.UserIndex;
+                batteryTypeMenuItem.Text = Resources.BatteryTypeDescriptor + batteryInfo.BatteryType;
+                batteryLevelMenuItem.Text = Resources.BatteryLevelDescriptor + batteryInfo.BatteryLevel;
                 mainMenuItem.Enabled = true;
                 batteryTypeMenuItem.Visible = true;
                 batteryLevelMenuItem.Visible = true;
             }
             else
             {
-                mainMenuItem.Text = $@"Controller {controller.UserIndex} is not connected.";
+                mainMenuItem.Text = Resources.ControllerDescriptor + controller.UserIndex + Resources.NotConnected;
                 mainMenuItem.Enabled = false;
                 batteryTypeMenuItem.Visible = false;
                 batteryLevelMenuItem.Visible = false;
@@ -121,28 +122,26 @@ namespace XInputBatteryMeter
 
         private void Controller_BatteryLow(object sender, UserIndexEventArgs e)
         {
-            _notifyIcon.ShowBalloonTip(0, "Battery Low", $"The battery in controller {e.UserIndex} is low.", ToolTipIcon.None);
+            _notifyIcon.ShowBalloonTip(0, Resources.BatteryLowTitle, Resources.BatteryLevelDescriptor.Replace(Resources.UserIndexPlaceholder, e.UserIndex.ToString()), ToolTipIcon.None);
         }
 
         private void Controller_Connected(object sender, UserIndexEventArgs e)
         {
             UpdateActiveController();
-            _notifyIcon.ShowBalloonTip(0, "Controller Connected", $"Controller {e.UserIndex} has been connected.", ToolTipIcon.None);
+            _notifyIcon.ShowBalloonTip(0, Resources.ControllerConnectedTitle, Resources.ControllerConnectedDescription.Replace(Resources.UserIndexPlaceholder, e.UserIndex.ToString()), ToolTipIcon.None);
         }
 
         private void Controller_Disconnected(object sender, UserIndexEventArgs e)
         {
             UpdateActiveController();
-            _notifyIcon.ShowBalloonTip(0, "Controller Disconnected", $"Controller {e.UserIndex} has been disconnected.", ToolTipIcon.None);
+            _notifyIcon.ShowBalloonTip(0, Resources.ControllerDisconnectedTitle, Resources.ControllerDisconnectedDescription.Replace(Resources.UserIndexPlaceholder, e.UserIndex.ToString()), ToolTipIcon.None);
         }
 
         private void Controller_BatteryInformationUpdated(object sender, UserIndexEventArgs e)
         {
-            if (_activeController.UserIndex == e.UserIndex)
-            {
-                UpdateAppTrayIcon(_poller.ControllerBatteryInformation[e.UserIndex]);
-                UpdateAppTrayText(_poller.Controllers.FirstOrDefault(c => c.UserIndex == e.UserIndex), _poller.ControllerBatteryInformation[e.UserIndex]);
-            }
+            if (_activeController.UserIndex != e.UserIndex) return;
+            UpdateAppTrayIcon(_poller.ControllerBatteryInformation[e.UserIndex]);
+            UpdateAppTrayText(_poller.Controllers.FirstOrDefault(c => c.UserIndex == e.UserIndex), _poller.ControllerBatteryInformation[e.UserIndex]);
         }
 
         private void MainMenuItem_Click(object sender, EventArgs e)
@@ -165,11 +164,9 @@ namespace XInputBatteryMeter
                 var menuItem = _notifyIcon.ContextMenu.MenuItems.Cast<MenuItem>().FirstOrDefault(x => x.Name.Equals($"Controller{selectedController.UserIndex}_Main"));
                 if (menuItem != null) menuItem.Checked = true;
 
-                if (_poller.ControllerBatteryInformation.ContainsKey(selectedController.UserIndex))
-                {
-                    UpdateAppTrayIcon(_poller.ControllerBatteryInformation[selectedController.UserIndex]);
-                    UpdateAppTrayText(selectedController, _poller.ControllerBatteryInformation[selectedController.UserIndex]);
-                }
+                if (!_poller.ControllerBatteryInformation.ContainsKey(selectedController.UserIndex)) return;
+                UpdateAppTrayIcon(_poller.ControllerBatteryInformation[selectedController.UserIndex]);
+                UpdateAppTrayText(selectedController, _poller.ControllerBatteryInformation[selectedController.UserIndex]);
             }
             else
             {
@@ -181,14 +178,15 @@ namespace XInputBatteryMeter
 
         private void ResetAppTrayIcon()
         {
-            _notifyIcon.Icon = Properties.Resources.AppIcon;
+            _notifyIcon.Icon = Resources.AppIcon;
         }
 
         private void UpdateAppTrayText(Controller controller, BatteryInformation batteryInformation)
         {
-            _notifyIcon.Text = $@"Controller {controller.UserIndex}
-Type: {batteryInformation.BatteryType}
-Level: {batteryInformation.BatteryLevel}";
+            _notifyIcon.Text = Resources.NotificationIconText
+                .Replace(Resources.UserIndexPlaceholder, controller.UserIndex.ToString())
+                .Replace(Resources.BatteryTypePlaceholder, batteryInformation.BatteryType.ToString())
+                .Replace(Resources.BatteryLevelPlaceholder, batteryInformation.BatteryLevel.ToString());
         }
 
         private void UpdateAppTrayIcon(BatteryInformation batteryInformation)
@@ -196,16 +194,16 @@ Level: {batteryInformation.BatteryLevel}";
             switch (batteryInformation.BatteryLevel)
             {
                 case BatteryLevel.Low:
-                    _notifyIcon.Icon = Properties.Resources.batteryIcon_33;
+                    _notifyIcon.Icon = Resources.batteryIcon_33;
                     break;
                 case BatteryLevel.Medium:
-                    _notifyIcon.Icon = Properties.Resources.batteryIcon_66;
+                    _notifyIcon.Icon = Resources.batteryIcon_66;
                     break;
                 case BatteryLevel.Full:
-                    _notifyIcon.Icon = Properties.Resources.batteryIcon_100;
+                    _notifyIcon.Icon = Resources.batteryIcon_100;
                     break;
                 default:
-                    _notifyIcon.Icon = Properties.Resources.AppIcon;
+                    _notifyIcon.Icon = Resources.AppIcon;
                     break;
             }
         }

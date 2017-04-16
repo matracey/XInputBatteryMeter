@@ -61,12 +61,30 @@ namespace XInputBatteryMeter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string AboutMenuItem {
+            get {
+                return ResourceManager.GetString("AboutMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon AppIcon {
             get {
                 object obj = ResourceManager.GetObject("AppIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to XInput Battery Meter.
+        /// </summary>
+        internal static string AppName {
+            get {
+                return ResourceManager.GetString("AppName", resourceCulture);
             }
         }
         
@@ -111,12 +129,149 @@ namespace XInputBatteryMeter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Battery Level: .
+        /// </summary>
+        internal static string BatteryLevelDescriptor {
+            get {
+                return ResourceManager.GetString("BatteryLevelDescriptor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BATTERY_LEVEL.
+        /// </summary>
+        internal static string BatteryLevelPlaceholder {
+            get {
+                return ResourceManager.GetString("BatteryLevelPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The battery in Controller USER_INDEX is low..
+        /// </summary>
+        internal static string BatteryLowDescription {
+            get {
+                return ResourceManager.GetString("BatteryLowDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Battery Low.
+        /// </summary>
+        internal static string BatteryLowTitle {
+            get {
+                return ResourceManager.GetString("BatteryLowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Battery Type: .
+        /// </summary>
+        internal static string BatteryTypeDescriptor {
+            get {
+                return ResourceManager.GetString("BatteryTypeDescriptor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BATTERY_TYPE.
+        /// </summary>
+        internal static string BatteryTypePlaceholder {
+            get {
+                return ResourceManager.GetString("BatteryTypePlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controller USER_INDEX has been connected..
+        /// </summary>
+        internal static string ControllerConnectedDescription {
+            get {
+                return ResourceManager.GetString("ControllerConnectedDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controller Connected.
+        /// </summary>
+        internal static string ControllerConnectedTitle {
+            get {
+                return ResourceManager.GetString("ControllerConnectedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controller .
+        /// </summary>
+        internal static string ControllerDescriptor {
+            get {
+                return ResourceManager.GetString("ControllerDescriptor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controller USER_INDEX has been disconnected..
+        /// </summary>
+        internal static string ControllerDisconnectedDescription {
+            get {
+                return ResourceManager.GetString("ControllerDisconnectedDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controller Disconnected.
+        /// </summary>
+        internal static string ControllerDisconnectedTitle {
+            get {
+                return ResourceManager.GetString("ControllerDisconnectedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap ControllerIcon {
             get {
                 object obj = ResourceManager.GetObject("ControllerIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        internal static string ExitMenuItem {
+            get {
+                return ResourceManager.GetString("ExitMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  is not connnected..
+        /// </summary>
+        internal static string NotConnected {
+            get {
+                return ResourceManager.GetString("NotConnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controller USER_INDEX
+        ///Type: BATTERY_TYPE
+        ///Level: BATTERY_LEVEL.
+        /// </summary>
+        internal static string NotificationIconText {
+            get {
+                return ResourceManager.GetString("NotificationIconText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USER_INDEX.
+        /// </summary>
+        internal static string UserIndexPlaceholder {
+            get {
+                return ResourceManager.GetString("UserIndexPlaceholder", resourceCulture);
             }
         }
     }
