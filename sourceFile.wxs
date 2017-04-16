@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="XInput Battery Meter" Language="1033" Version="1.0.0.0" Manufacturer="Martin Tracey" UpgradeCode="fb26581f-6b3e-412a-97b6-146ff8401b93">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Manufacturer="Martin Tracey" Description="Installs the XInput Battery Meter application." />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+		<Feature Id="ProductFeature" Title="XInputBatteryMeter.Installer" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+    <UIRef Id="WixUI_InstallDir"/>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="XInput Battery Meter" />
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="cmp_XInput Battery Meter.exe.config" Guid="184F2EBD-1B76-4825-A4CD-DBBBAFFF01B4">
+		    <File Id="fil_XInput Battery Meter.exe.config" KeyPath="yes" Source="$(var.AppBinDir)\XInput Battery Meter.exe.config" />
+		  </Component>
+		  <Component Id="cmp_XInput Battery Meter.exe" Guid="CEC643CE-84CB-4368-AAA0-4248FD72956A">
+		    <File Id="file_XInput Battery Meter.exe" KeyPath="yes" Source="$(var.AppBinDir)\XInput Battery Meter.exe" />
+		  </Component>
+		  <Component Id="cmp_SharpDX.dll" Guid="DD518D2B-3C31-4C2C-B5C1-4D81D02D3D75">
+		    <File Id="fil_SharpDX.dll" KeyPath="yes" Source="$(var.AppBinDir)\SharpDX.dll" />
+		  </Component>
+		  <Component Id="cmp_SharpDX.XInput.dll" Guid="E96C3E6E-5B56-46E7-B4B4-C30384690F11">
+		    <File Id="fil_SharpDX.XInput.dll" KeyPath="yes" Source="$(var.AppBinDir)\SharpDX.XInput.dll" />
+		  </Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>
