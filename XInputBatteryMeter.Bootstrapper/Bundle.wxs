@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+	<Bundle Name="XInput Battery Meter" Version="1.0.0.0" Manufacturer="Martin Tracey" UpgradeCode="2d59ec67-b254-4b8c-95e8-71985f28747f">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+      <bal:WixStandardBootstrapperApplication
+        LicenseFile="..\Resources\LICENSE.rtf"
+        LogoFile="..\Resources\Icon.png" 
+        ThemeFile="CustomTheme.xml" />
+    </BootstrapperApplicationRef>
+	  <util:RegistrySearch Id="NETFRAMEWORK40"
+	                       Root="HKLM"
+	                       Key="SOFTWARE\Microsoft\Net Framework Setup\NDP\v4\Full"
+	                       Value="Install"
+	                       Variable="NETFRAMEWORK40"
+	                       Result="value"/>
+	  <Variable Name="InstallFolder" Type="string" Value="[ProgramFilesFolder]XInput Battery Meter"/>
+    
+
+    <Chain>
+	    <!-- Install .Net 4 Full -->
+      <PackageGroupRef Id="Net40Full"/>
+      <PackageGroupRef Id="XInputBatteryMeter"/>
+	  </Chain>
+	</Bundle>
+    <!--Search for .NET 4.0-->
+
+
+  <Fragment Id="Prerequisites">
+    <!--.NET 4.0-->
+    <PackageGroup Id="Net40Full">
+      <ExePackage Id="pkg_Net40Full"
+                  Cache="no"
+                  Compressed="yes"
+                  PerMachine="yes"
+                  Permanent="yes"
+                  Vital="yes"
+                  SourceFile="libs\dotNetFx40_Full_x86_x64.exe"
+                  DetectCondition="NETFRAMEWORK40"/>
+    </PackageGroup>
+  </Fragment>
+  <Fragment Id="Application">
+    <PackageGroup Id="XInputBatteryMeter">
+      <MsiPackage Id="pkg_XInputBatteryMeter"
+                  Cache="no"
+                  After="pkg_Net40Full"
+                  Compressed="yes"
+                  Permanent="yes"
+                  Vital="yes"
+                  SourceFile="$(var.AppInstallerDir)\XInput Battery Meter.msi">
+        <MsiProperty Name="INSTALLLOCATION" Value="[InstallFolder]" />
+        <MsiProperty Name="INSTALL_SHORTCUT" Value="[DesktopShortcutCheckbox]"/>
+      </MsiPackage>
+    </PackageGroup>
+  </Fragment>
+</Wix>
