@@ -404,5 +404,23 @@ namespace XInputBatteryMeter.Properties {
                 return ResourceManager.GetString("VersionString", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to XInput Not Found.
+        /// </summary>
+        internal static string XInputNotFoundCaption {
+            get {
+                return ResourceManager.GetString("XInputNotFoundCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to XInput was not detected on this system. Please ensure you have the latest version of DirectX installed and try again. The application will now close..
+        /// </summary>
+        internal static string XInputNotFoundText {
+            get {
+                return ResourceManager.GetString("XInputNotFoundText", resourceCulture);
+            }
+        }
     }
 }

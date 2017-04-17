@@ -237,4 +237,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   <data name="VersionString" xml:space="preserve">
     <value>Version </value>
   </data>
+  <data name="XInputNotFoundCaption" xml:space="preserve">
+    <value>XInput Not Found</value>
+  </data>
+  <data name="XInputNotFoundText" xml:space="preserve">
+    <value>XInput was not detected on this system. Please ensure you have the latest version of DirectX installed and try again. The application will now close.</value>
+  </data>
 </root>
