@@ -11,7 +11,7 @@
   <Text X="80" Y="11" Width="-11" Height="64" FontId="1" Visible="yes">#(loc.Title)</Text>
 
   <Page Name="Install">
-    <Hypertext Name="EulaHyperlink" X="11" Y="121" Width="-11" Height="51" TabStop="yes" FontId="3" HideWhenDisabled="yes">#(loc.InstallLicenseLinkText)</Hypertext>
+    <Richedit Name="EulaRichedit" X="11" Y="80" Width="-11" Height="-70" TabStop="yes" FontId="0" HexStyle="0x800000" />
     <Checkbox Name="EulaAcceptCheckbox" X="-11" Y="-41" Width="246" Height="17" TabStop="yes" FontId="3" HideWhenDisabled="yes">#(loc.InstallAcceptCheckbox)</Checkbox>
     <Button Name="OptionsButton" X="-171" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0" HideWhenDisabled="yes">#(loc.InstallOptionsButton)</Button>
     <Button Name="InstallButton" X="-91" Y="-11" Width="75" Height="23" TabStop="yes" FontId="0">#(loc.InstallInstallButton)</Button>

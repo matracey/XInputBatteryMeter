@@ -23,7 +23,7 @@
                 <Control Id="ChangeFolder" Type="PushButton" X="20" Y="120" Width="56" Height="17" Text="!(loc.InstallDirDlgChange)" />
                 <Control Id="InstallShortcutCheckbox" Type="CheckBox"
                          X="20" Y="140" Width="200" Height="17"
-                         Property="INSTALL_SHORTCUT" CheckBoxValue="1"
+                         Property="INSTALLSHORTCUT" CheckBoxValue="1"
                          Text="Create a desktop shortcut?" />
             </Dialog>
         </UI>
