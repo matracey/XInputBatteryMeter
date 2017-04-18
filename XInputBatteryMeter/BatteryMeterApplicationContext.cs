@@ -193,6 +193,9 @@ namespace XInputBatteryMeter
         {
             switch (batteryInformation.BatteryLevel)
             {
+                case BatteryLevel.Empty:
+                    _notifyIcon.Icon = Resources.batteryIcon_0;
+                    break;
                 case BatteryLevel.Low:
                     _notifyIcon.Icon = Resources.batteryIcon_33;
                     break;
