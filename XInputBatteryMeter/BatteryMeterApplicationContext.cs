@@ -11,6 +11,11 @@ namespace XInputBatteryMeter
         private readonly NotifyIcon _notifyIcon;
         private readonly BatteryStatusPoller _poller;
         private Controller _activeController;
+#if DEBUG
+        private const string _primaryUpdateUrl = "http://localhost:3000/xinput-battery-meter-update/update.xml";
+#else
+        private const string _primaryUpdateUrl = "https://matracey.github.io/xinput-battery-meter-update/update.xml";
+#endif
 
         /// <summary>
         /// Creates a new BatteryMeterApplicationContext instance using the specified BatteryStatusPoller.
@@ -58,6 +63,8 @@ namespace XInputBatteryMeter
             _notifyIcon.ContextMenu.MenuItems.Add(exitItem);
 
             UpdateActiveController();
+
+            AutoUpdaterDotNET.AutoUpdater.Start(_primaryUpdateUrl);
         }
 
         /// <summary>

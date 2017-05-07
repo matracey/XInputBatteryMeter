@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
      xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
-	<Bundle Name="XInput Battery Meter" Version="1.0.0.0" Manufacturer="Martin Tracey" UpgradeCode="2d59ec67-b254-4b8c-95e8-71985f28747f">
+	<Bundle Name="XInput Battery Meter" Version="1.0.0" Manufacturer="Martin Tracey" UpgradeCode="2d59ec67-b254-4b8c-95e8-71985f28747f">
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
       <bal:WixStandardBootstrapperApplication
         LicenseFile="..\Resources\LICENSE.rtf"
