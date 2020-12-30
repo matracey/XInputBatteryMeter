@@ -9,15 +9,14 @@
     <OutputName>XInput Battery Meter</OutputName>
     <OutputType>Bundle</OutputType>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;AppInstallerDir=..\XInputBatteryMeter.Installer\bin\Debug</DefineConstants>
+    <DefineConstants>AppInstallerDir=..\XInputBatteryMeter.Installer\bin\$(Configuration)</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>AppInstallerDir=..\XInputBatteryMeter.Installer\bin\Release</DefineConstants>
+  <PropertyGroup>
+    <WixTargetsPath>$(WixToolPath)\Wix.targets</WixTargetsPath>
+    <WixTasksPath>$(WixToolPath)\wixtasks.dll</WixTasksPath>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bundle.wxs" />
