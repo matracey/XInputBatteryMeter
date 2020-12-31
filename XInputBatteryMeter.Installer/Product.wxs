@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="60053C46-606D-4280-BBD4-57C743FB9B33" Name="XInput Battery Meter" Language="1033" Version="1.0.0.0" Manufacturer="Martin Tracey" UpgradeCode="fb26581f-6b3e-412a-97b6-146ff8401b93">
+  <Product Id="60053C46-606D-4280-BBD4-57C743FB9B33" Name="XInput Battery Meter" Language="1033" Version="1.0.1" Manufacturer="Martin Tracey" UpgradeCode="fb26581f-6b3e-412a-97b6-146ff8401b93">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Manufacturer="Martin Tracey" Description="Installs the XInput Battery Meter application." />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate EmbedCab="yes" />
     
     <Feature Id="ProductFeature" Title="XInput Battery Meter" Level="1">
-      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="BinDirectory" />
       <ComponentRef Id="DesktopShortcut" />
     </Feature>
   
@@ -31,30 +31,13 @@
   </Fragment>
 
   <Fragment>
-    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-      <Component Id="cmp_XInput_Battery_Meter.exe.config" Guid="8175B6D3-3AD2-4939-A080-6CADFDAEA05D">
-        <File Id="fil_XInput_Battery_Meter.exe.config" KeyPath="yes" Source="$(var.AppBinDir)\XInput Battery Meter.exe.config" />
-      </Component>
-      <Component Id="XInput_Battery_Meter.exe" Guid="0158C991-463E-40F1-82EC-03647C3486D7">
-        <File Id="XInput_Battery_Meter.exe" KeyPath="yes" Source="$(var.AppBinDir)\XInput Battery Meter.exe"/>
-      </Component>
-      <Component Id="cmp_SharpDX.dll" Guid="1E9543E5-BB37-4429-93E4-DFC6266679D2">
-        <File Id="fil_SharpDX.dll" KeyPath="yes" Source="$(var.AppBinDir)\SharpDX.dll" />
-      </Component>
-      <Component Id="cmp_SharpDX.XInput.dll" Guid="481BAE2D-A2E0-4C36-9DF1-A78FD15A043C">
-        <File Id="fil_SharpDX.XInput.dll" KeyPath="yes" Source="$(var.AppBinDir)\SharpDX.XInput.dll" />
-      </Component>
-    </ComponentGroup>
-  </Fragment>
-
-  <Fragment>
     <Icon Id="ControllerIcon.ico" SourceFile="..\Resources\ControllerIcon.ico"/>
     <DirectoryRef Id="DesktopFolder">
       <Component Id="DesktopShortcut" Guid="6FFFACFF-742B-487F-B9DD-0B541F066C8C">
         <Condition>INSTALLSHORTCUT</Condition>
         <Shortcut Id="ApplicationDesktopShortcut" 
                   Name="XInput Battery Meter" 
-                  Target="[!XInput_Battery_Meter.exe]"
+                  Target="[INSTALLFOLDER]XInputBatteryMeter.exe"
                   WorkingDirectory="INSTALLFOLDER" 
                   Icon="ControllerIcon.ico" />
         <RemoveFolder Id="DesktopFolder" On="uninstall" />
