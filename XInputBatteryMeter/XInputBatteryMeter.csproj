@@ -20,6 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="squirrel.windows" Version="1.9.0" />
     <PackageReference Include="SharpDX.XInput" Version="4.2.0" />
   </ItemGroup>
 

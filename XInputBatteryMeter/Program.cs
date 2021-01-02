@@ -2,18 +2,27 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using XInputBatteryMeter.Properties;
+using Squirrel;
+using System.Threading.Tasks;
 
 namespace XInputBatteryMeter
 {
     static class Program
     {
+        private static readonly string s_updateUrl = "https://github.com/matracey/XInputBatteryMeter";
+
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static async Task Main()
         {
             Console.WriteLine(@"Initializing.");
+
+            using (var mgr = await UpdateManager.GitHubUpdateManager(s_updateUrl))
+            {
+                await mgr.UpdateApp();
+            }
 
             var xinput13 = IsLibraryInstalled("xinput1_3.dll");
             //var xinput910 = IsLibraryInstalled("xinput9_1_0.dll");
