@@ -112,9 +112,9 @@ namespace XInputBatteryMeter
 
     public class UserIndexEventArgs : EventArgs
     {
-        public UserIndex UserIndex { get; set; }
+        public uint UserIndex { get; set; }
 
-        public UserIndexEventArgs(UserIndex userIndex)
+        public UserIndexEventArgs(uint userIndex)
         {
             UserIndex = userIndex;
         }

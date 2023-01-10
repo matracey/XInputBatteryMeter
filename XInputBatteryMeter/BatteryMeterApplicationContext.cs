@@ -1,17 +1,25 @@
-﻿using SharpDX.XInput;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using XInputBatteryMeter.Models;
 using XInputBatteryMeter.Properties;
 
 namespace XInputBatteryMeter
 {
-    public class BatteryMeterApplicationContext : ApplicationContext
+    public partial class BatteryMeterApplicationContext : ApplicationContext
     {
         private readonly NotifyIcon _notifyIcon;
         private readonly BatteryStatusPoller _poller;
-        private Controller _activeController;
+        private IntPtr? _activeController;
+        private uint? _activeControllerIndex;
+
+        [DllImport("xinput1_4.dll")]
+        private static extern uint XInputGetBatteryInformation(IntPtr hDevice, byte devType, ref XInputBatteryInformation pBatteryInformation);
+
+        [DllImport("xinput1_4.dll")]
+        private static extern uint XInputGetState(uint dwUserIndex, ref XINPUT_STATE pState);
 
 #if DEBUG
         private const string _primaryUpdateUrl = "http://localhost:3000/xinput-battery-meter-update/update.xml";
@@ -54,7 +62,8 @@ namespace XInputBatteryMeter
                 if (_notifyIcon.ContextMenuStrip.InvokeRequired)
                 {
                     _notifyIcon.ContextMenuStrip.Invoke(updateMethod);
-                } else
+                }
+                else
                 {
                     updateMethod();
                 }
@@ -111,24 +120,22 @@ namespace XInputBatteryMeter
         /// <param name="mainMenuItem">The Main Menu Item for the controller.</param>
         /// <param name="batteryTypeMenuItem">The Battery Type Menu Item for the controller.</param>
         /// <param name="batteryLevelMenuItem">The Battery Level Menu Item for the controller.</param>
-        private void UpdateControllerStatus(Controller controller, ref ToolStripMenuItem mainMenuItem, ref ToolStripMenuItem batteryTypeMenuItem, ref ToolStripMenuItem batteryLevelMenuItem)
+        private void UpdateControllerStatus(IntPtr controller, ref ToolStripMenuItem mainMenuItem, ref ToolStripMenuItem batteryTypeMenuItem, ref ToolStripMenuItem batteryLevelMenuItem)
         {
-            if (controller.IsConnected && _poller.ControllerBatteryInformation.ContainsKey(controller.UserIndex))
+            var batteryInformation = new XInputBatteryInformation();
+            var result = XInputGetBatteryInformation(controller, (byte)BatteryDeviceType.Gamepad, ref batteryInformation);
+
+            if (result == 0)
             {
-                var batteryInfo = _poller.ControllerBatteryInformation[controller.UserIndex];
-                mainMenuItem.Text = Resources.ControllerDescriptor + controller.UserIndex;
-                batteryTypeMenuItem.Text = Resources.BatteryTypeDescriptor + batteryInfo.BatteryType;
-                batteryLevelMenuItem.Text = Resources.BatteryLevelDescriptor + batteryInfo.BatteryLevel;
-                mainMenuItem.Enabled = true;
-                batteryTypeMenuItem.Visible = true;
-                batteryLevelMenuItem.Visible = true;
+                mainMenuItem.Text = $"Controller {(uint)controller}";
+                batteryTypeMenuItem.Text = $"Battery Type: {batteryInformation.BatteryType}";
+                batteryLevelMenuItem.Text = $"Battery Level: {batteryInformation.BatteryLevel}";
             }
             else
             {
-                mainMenuItem.Text = Resources.ControllerDescriptor + controller.UserIndex + Resources.NotConnected;
-                mainMenuItem.Enabled = false;
-                batteryTypeMenuItem.Visible = false;
-                batteryLevelMenuItem.Visible = false;
+                mainMenuItem.Text = $"Controller {(uint)controller} (Not Connected)";
+                batteryTypeMenuItem.Enabled = false;
+                batteryLevelMenuItem.Enabled = false;
             }
         }
 
@@ -163,7 +170,7 @@ namespace XInputBatteryMeter
 
         private void Controller_BatteryInformationUpdated(object sender, UserIndexEventArgs e)
         {
-            if (_activeController.UserIndex != e.UserIndex) return;
+            if (_activeControllerIndex != e.UserIndex) return;
             UpdateAppTrayIcon(_poller.ControllerBatteryInformation[e.UserIndex]);
             UpdateAppTrayText(_poller.Controllers.FirstOrDefault(c => c.UserIndex == e.UserIndex), _poller.ControllerBatteryInformation[e.UserIndex]);
         }
@@ -174,27 +181,45 @@ namespace XInputBatteryMeter
             UpdateActiveController(_poller.Controllers.FirstOrDefault(c => menuItem.Name == $"Controller{c.UserIndex}_Main"));
         }
 
-        private void UpdateActiveController(Controller selectedController = null)
+        private static uint? GetControllerUserIndex(IntPtr controller)
+        {
+            var state = new XINPUT_STATE();
+            var result = XInputGetState((uint)controller, ref state);
+            if (result == 0)
+            {
+                return state.dwPacketNumber;
+            }
+            else
+            {
+                // TODO: Handle the error
+                return null;
+            }
+        }
+
+        private void UpdateActiveController(IntPtr? selectedController = null)
         {
             // Will be null if no controllers connected.
-            if (selectedController == null) selectedController = _poller.Controllers.FirstOrDefault(c => c.IsConnected);
+            selectedController ??= _poller.Controllers.FirstOrDefault(c => c.IsConnected);
 
-            if (selectedController != null)
+            if (selectedController.HasValue)
             {
-                if (_activeController != null && _activeController.UserIndex == selectedController.UserIndex) return;
+                var selectedControllerIndex = GetControllerUserIndex(selectedController.Value);
+                if (_activeController != null && _activeControllerIndex == selectedControllerIndex) return;
                 UpdateSelected<ToolStripMenuItem>(false);
                 _activeController = selectedController;
+                _activeControllerIndex = selectedControllerIndex;
 
-                UpdateSelected<ToolStripMenuItem>(true, x => x.Name.Equals($"Controller{selectedController.UserIndex}_Main"));
+                UpdateSelected<ToolStripMenuItem>(true, x => x.Name.Equals($"Controller{selectedControllerIndex}_Main"));
 
-                if (!_poller.ControllerBatteryInformation.ContainsKey(selectedController.UserIndex)) return;
-                UpdateAppTrayIcon(_poller.ControllerBatteryInformation[selectedController.UserIndex]);
-                UpdateAppTrayText(selectedController, _poller.ControllerBatteryInformation[selectedController.UserIndex]);
+                if (!_poller.ControllerBatteryInformation.ContainsKey(selectedControllerIndex)) return;
+                UpdateAppTrayIcon(_poller.ControllerBatteryInformation[selectedControllerIndex]);
+                UpdateAppTrayText(selectedController, _poller.ControllerBatteryInformation[selectedControllerIndex]);
             }
             else
             {
                 UpdateSelected<ToolStripMenuItem>(false);
                 _activeController = null;
+                _activeControllerIndex = null;
                 ResetAppTrayIcon();
             }
         }
@@ -204,7 +229,7 @@ namespace XInputBatteryMeter
             _notifyIcon.Icon = Resources.AppIcon;
         }
 
-        private void UpdateAppTrayText(Controller controller, BatteryInformation batteryInformation)
+        private void UpdateAppTrayText(IntPtr controller, XInputBatteryInformation batteryInformation)
         {
             _notifyIcon.Text = Resources.NotificationIconText
                 .Replace(Resources.UserIndexPlaceholder, controller.UserIndex.ToString())
@@ -212,7 +237,7 @@ namespace XInputBatteryMeter
                 .Replace(Resources.BatteryLevelPlaceholder, batteryInformation.BatteryLevel.ToString());
         }
 
-        private void UpdateSelected<T>(bool isSelected, Func<T, bool> scopePredicate = null) where T: ToolStripMenuItem
+        private void UpdateSelected<T>(bool isSelected, Func<T, bool> scopePredicate = null) where T : ToolStripMenuItem
         {
             var items = _notifyIcon.ContextMenuStrip.Items.OfType<T>();
             if (scopePredicate != null)
@@ -231,32 +256,23 @@ namespace XInputBatteryMeter
             if (_notifyIcon.ContextMenuStrip.InvokeRequired)
             {
                 _notifyIcon.ContextMenuStrip.Invoke(run);
-            }else
+            }
+            else
             {
                 run();
             }
         }
 
-        private void UpdateAppTrayIcon(BatteryInformation batteryInformation)
+        private void UpdateAppTrayIcon(XInputBatteryInformation batteryInformation)
         {
-            switch (batteryInformation.BatteryLevel)
+            _notifyIcon.Icon = batteryInformation.BatteryLevel switch
             {
-                case BatteryLevel.Empty:
-                    _notifyIcon.Icon = Resources.batteryIcon_0;
-                    break;
-                case BatteryLevel.Low:
-                    _notifyIcon.Icon = Resources.batteryIcon_33;
-                    break;
-                case BatteryLevel.Medium:
-                    _notifyIcon.Icon = Resources.batteryIcon_66;
-                    break;
-                case BatteryLevel.Full:
-                    _notifyIcon.Icon = Resources.batteryIcon_100;
-                    break;
-                default:
-                    _notifyIcon.Icon = Resources.AppIcon;
-                    break;
-            }
+                BatteryLevel.Empty => Resources.batteryIcon_0,
+                BatteryLevel.Low => Resources.batteryIcon_33,
+                BatteryLevel.Medium => Resources.batteryIcon_66,
+                BatteryLevel.Full => Resources.batteryIcon_100,
+                _ => Resources.AppIcon,
+            };
         }
     }
 }
