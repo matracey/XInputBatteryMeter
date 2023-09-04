@@ -1,0 +1,7 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="MainComponents" Directory="INSTALLFOLDER">
+      <Files Include="$(XInputBatteryMeter.TargetDir)**" />
+    </ComponentGroup>
+  </Fragment>
+</Wix>

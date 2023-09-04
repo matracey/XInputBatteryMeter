@@ -1,0 +1,18 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <ComponentGroup Id="ShortcutComponents" Directory="INSTALLFOLDER">
+      <!-- Define a component for creating a Desktop shortcut if ENABLEDESKTOPSHORTCUT is true -->
+      <Component Directory="DesktopFolder" Condition="ENABLEDESKTOPSHORTCUT">
+        <!-- Define a registry value to track if the Desktop shortcut is enabled. -->
+        <RegistryValue Root="HKCU" Key="SOFTWARE\$(XInputBatteryMeter.ProjectName)" Name="DesktopShortcutEnabled" Value="1"/>
+        <!-- Create the Desktop shortcut itself. -->
+        <Shortcut Id="DesktopShortcut" Name="!(bind.Property.ProductName)" Target="[INSTALLFOLDER]$(XInputBatteryMeter.ProjectName).exe" Description="!(loc.PackageDescription)" Icon="$(XInputBatteryMeter.ProjectName).exe" IconIndex="0"/>
+      </Component>
+      <!-- Similar to above, but for Start Menu shortcut. -->
+      <Component Directory="StartMenuFolder" Condition="ENABLESTARTMENUSHORTCUT">
+        <RegistryValue Root="HKCU" Key="SOFTWARE\$(XInputBatteryMeter.ProjectName)" Name="StartMenuShortcutEnabled" Value="1"/>
+        <Shortcut Id="StartMenuShortcut" Name="!(bind.Property.ProductName)" Target="[INSTALLFOLDER]$(XInputBatteryMeter.ProjectName).exe" Description="!(loc.PackageDescription)" Icon="$(XInputBatteryMeter.ProjectName).exe" IconIndex="0"/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

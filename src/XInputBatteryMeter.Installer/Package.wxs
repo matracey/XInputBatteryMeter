@@ -1,0 +1,43 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+  xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui"
+  xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
+  <Package Name="!(loc.PackageName)" Manufacturer="!(loc.PackageManufacturer)" Version="1.1.0.0" UpgradeCode="fb26581f-6b3e-412a-97b6-146ff8401b93">
+    <SummaryInformation Manufacturer="!(loc.PackageManufacturer)" Description="!(loc.PackageDescription)"/>
+    <!-- Configure the cab file to be embedded in the MSI. -->
+    <MediaTemplate EmbedCab="yes"/>
+    <!-- Default behavior for attempted downgrades. -->
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)"/>
+    <!-- Define the Icon for the Package. -->
+    <Icon Id="$(XInputBatteryMeter.ProjectName).exe" SourceFile="$(XInputBatteryMeter.ProjectName).exe"/>
+
+    <!-- Quit / restart application, if running -->
+    <util:RestartResource ProcessName="$(XInputBatteryMeter.ProjectName).exe"/>
+
+    <!-- WixUI exposes these variables, which allow us to customize the apperance of WixUI. -->
+    <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf"/>
+    <WixVariable Id="WixUIDialogBmp" Value="WixUIDialogBmp.bmp"/>
+    <WixVariable Id="WixUIBannerBmp" Value="WixUIBannerBmp.bmp"/>
+
+    <!-- ARPPRODUCTICON is a property that sets the primary icon for the Windows Installer package.  -->
+    <Property Id="ARPPRODUCTICON" Value="$(XInputBatteryMeter.ProjectName).exe"/>
+    <!-- Define the property for the InstallDir, initially set to INSTALLFOLDER. -->
+    <!-- INSTALLFOLDER is defined in Folders.wxs -->
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER"/>
+    <!-- Define custom property to track if a Desktop shortcut should be created. -->
+    <Property Id="ENABLEDESKTOPSHORTCUT" Value="1"/>
+    <!-- Define custom property to track if a Start Menu shortcut should be created. -->
+    <Property Id="ENABLESTARTMENUSHORTCUT" Value="1"/>
+
+    <!-- Specify the WixUI that is to be used. -->
+    <!-- We make some minor customizations to WixUI_InstallDir which is WixUI\Custom_InstallDir.wxs -->
+    <ui:WixUI Id="Custom_InstallDir"/>
+
+    <!-- Define the "Main" feature that we will install. -->
+    <Feature Id="Main">
+      <!-- MainComponents contains all of the Components that make up the core of the application -->
+      <ComponentGroupRef Id="MainComponents"/>
+      <!-- ShortcutComponents contains the Components that (optionally) create Desktop/Start Menu shortcuts. -->
+      <ComponentGroupRef Id="ShortcutComponents"/>
+    </Feature>
+  </Package>
+</Wix>
