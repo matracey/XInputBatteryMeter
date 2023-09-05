@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autoupdater.NET.Official" Version="1.6.4" />
+    <PackageReference Include="Autoupdater.NET.Official" Version="1.5.8" />
     <PackageReference Include="SharpDX.XInput" Version="4.2.0" />
   </ItemGroup>
 
