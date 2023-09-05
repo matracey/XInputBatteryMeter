@@ -1,0 +1,7 @@
+# Ignore everything except rtf, svg and afdesign files.
+*.*
+!.gitignore
+!*.bat
+!*.rtf
+!*.svg
+!*.afdesign
