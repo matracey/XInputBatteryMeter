@@ -1,31 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
-     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
-     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
-	<Bundle Name="XInput Battery Meter" Version="1.0.1" Manufacturer="Martin Tracey" UpgradeCode="2d59ec67-b254-4b8c-95e8-71985f28747f">
-    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
-      <bal:WixStandardBootstrapperApplication
-        LicenseFile="..\Resources\LICENSE.rtf"
-        LogoFile="..\Resources\Icon.png" 
-        ThemeFile="CustomTheme.xml" />
-    </BootstrapperApplicationRef>
-	  <Variable Name="InstallFolder" Type="string" Value="[ProgramFilesFolder]XInput Battery Meter" Persisted="yes" />
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+  xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal">
+  <Bundle Name="XInput Battery Meter" Version="1.0.1" Manufacturer="Martin Tracey" UpgradeCode="2d59ec67-b254-4b8c-95e8-71985f28747f">
+    <BootstrapperApplication>
+      <bal:WixStandardBootstrapperApplication LicenseFile="$(SolutionDir)\Resources\LICENSE.rtf" LogoFile="$(SolutionDir)\Resources\Icon.png" ThemeFile="CustomTheme.xml" Theme="rtfLicense" />
+    </BootstrapperApplication>
+    <Variable Name="InstallFolder" Type="formatted" Value="[ProgramFilesFolder]XInput Battery Meter" Persisted="yes" />
     <Variable Name="DesktopShortcutCheckbox" Type="numeric" Value="1" Persisted="yes" />
 
     <Chain>
-      <PackageGroupRef Id="XInputBatteryMeter"/>
-	  </Chain>
-	</Bundle>
+      <PackageGroupRef Id="XInputBatteryMeter" />
+    </Chain>
+  </Bundle>
   <Fragment Id="Application">
     <PackageGroup Id="XInputBatteryMeter">
-      <MsiPackage Id="pkg_XInputBatteryMeter"
-                  Cache="no"
-                  Compressed="yes"
-                  Permanent="no"
-                  Vital="yes"
-                  SourceFile="$(var.AppInstallerDir)\XInput Battery Meter.msi">
+      <MsiPackage Id="pkg_XInputBatteryMeter" Cache="remove" Compressed="yes" Permanent="no" Vital="yes" SourceFile="$(XInputBatteryMeter.Installer.TargetDir)\$(XInputBatteryMeter.Installer.ProjectName).msi">
         <MsiProperty Name="INSTALLFOLDER" Value="[InstallFolder]" />
-        <MsiProperty Name="INSTALLSHORTCUT" Value="[DesktopShortcutCheckbox]"/>
+        <MsiProperty Name="INSTALLSHORTCUT" Value="[DesktopShortcutCheckbox]" />
       </MsiPackage>
     </PackageGroup>
   </Fragment>
