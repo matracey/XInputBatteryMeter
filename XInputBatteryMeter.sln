@@ -25,14 +25,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 		LICENSE.rtf = Resources/LICENSE.rtf
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XInputBatteryMeter", "XInputBatteryMeter\XInputBatteryMeter.csproj", "{A7A951E2-C5ED-42F9-98B6-4703524E3068}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XInputBatteryMeter", "src\XInputBatteryMeter\XInputBatteryMeter.csproj", "{A7A951E2-C5ED-42F9-98B6-4703524E3068}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "XInputBatteryMeter.Installer", "XInputBatteryMeter.Installer\XInputBatteryMeter.Installer.wixproj", "{B9BB9700-8727-4119-B5CB-2E3C48BDE069}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "XInputBatteryMeter.Installer", "src\XInputBatteryMeter.Installer\XInputBatteryMeter.Installer.wixproj", "{B9BB9700-8727-4119-B5CB-2E3C48BDE069}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A7A951E2-C5ED-42F9-98B6-4703524E3068} = {A7A951E2-C5ED-42F9-98B6-4703524E3068}
 	EndProjectSection
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "XInputBatteryMeter.Bootstrapper", "XInputBatteryMeter.Bootstrapper\XInputBatteryMeter.Bootstrapper.wixproj", "{2D59EC67-B254-4B8C-95E8-71985F28747F}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "XInputBatteryMeter.Bootstrapper", "src\XInputBatteryMeter.Bootstrapper\XInputBatteryMeter.Bootstrapper.wixproj", "{2D59EC67-B254-4B8C-95E8-71985F28747F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B9BB9700-8727-4119-B5CB-2E3C48BDE069} = {B9BB9700-8727-4119-B5CB-2E3C48BDE069}
 	EndProjectSection
