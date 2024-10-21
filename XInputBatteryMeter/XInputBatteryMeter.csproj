@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <UseWindowsForms>true</UseWindowsForms>
     <PackageId>XInputBatteryMeter</PackageId>
   </PropertyGroup>
@@ -27,11 +28,11 @@
   <ItemGroup>
     <None Include="..\LICENSE">
       <Pack>True</Pack>
-      <PackagePath/>
+      <PackagePath />
     </None>
     <None Include="Resources\ControllerIcon.png">
       <Pack>True</Pack>
-      <PackagePath/>
+      <PackagePath />
     </None>
   </ItemGroup>
 
