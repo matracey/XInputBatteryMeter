@@ -1,2 +1,4 @@
 [tools]
 dotnet = "8"
+"npm:prettier" = "latest"
+"npm:markdownlint-cli" = "latest"

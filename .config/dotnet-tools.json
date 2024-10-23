@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "dotnet-outdated-tool": {
+      "version": "4.6.4",
+      "commands": ["dotnet-outdated"],
+      "rollForward": false
+    },
+    "dotnet-format": {
+      "version": "5.1.250801",
+      "commands": ["dotnet-format"],
+      "rollForward": false
+    }
+  }
+}
