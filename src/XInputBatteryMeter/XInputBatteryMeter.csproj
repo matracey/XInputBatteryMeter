@@ -14,8 +14,8 @@
     <Product>XInput Battery Meter</Product>
     <Copyright>Copyright © 2017 Martin Tracey</Copyright>
     <PackageIcon>ControllerIcon.png</PackageIcon>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-    <FileVersion>1.0.1</FileVersion>
+    <AssemblyVersion>1.0.2</AssemblyVersion>
+    <FileVersion>1.0.2</FileVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
   </PropertyGroup>
