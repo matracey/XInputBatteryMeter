@@ -1,7 +1,5 @@
-using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 using XInputBatteryMeter.Properties;
 
@@ -19,7 +17,7 @@ internal static class Program
     {
         Console.WriteLine(@"Initializing.");
 
-        var xinput13 = IsLibraryInstalled("xinput1_3.dll");
+        bool xinput13 = IsLibraryInstalled("xinput1_3.dll");
         //var xinput910 = IsLibraryInstalled("xinput9_1_0.dll");
 
         if (!xinput13)
@@ -33,7 +31,7 @@ internal static class Program
         }
         else
         {
-            var poller = new BatteryStatusPoller();
+            BatteryStatusPoller poller = new();
 
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();

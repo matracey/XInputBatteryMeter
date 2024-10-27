@@ -3,6 +3,8 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <UseWindowsForms>true</UseWindowsForms>
     <PackageId>XInputBatteryMeter</PackageId>
@@ -21,19 +23,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autoupdater.NET.Official" Version="1.9.2" />
-    <PackageReference Include="SharpDX.XInput" Version="4.2.0" />
+    <PackageReference Include="Autoupdater.NET.Official" Version="1.9.2"/>
+    <PackageReference Include="SharpDX.XInput" Version="4.2.0"/>
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath />
-    </None>
-    <None Include="Resources\ControllerIcon.png">
-      <Pack>True</Pack>
-      <PackagePath />
-    </None>
+    <None Include="..\LICENSE;Resources\ControllerIcon.png" Pack="True" />
   </ItemGroup>
 
 </Project>
